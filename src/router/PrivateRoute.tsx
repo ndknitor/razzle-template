@@ -26,9 +26,9 @@ function PrivateRoute(props: Props) {
                 <Fragment>
                     {props.children}
                 </Fragment> :
-                null
+                <Navigate to={props.forbiddenRedirect}/>
             :
-            null
+            <Navigate to={props.unauthenticatedRedirect}/>
     )
 }
 
