@@ -7,7 +7,8 @@ import App from './App';
 hydrate(
   <BrowserRouter>
     <App />
-  </BrowserRouter>,
+  </BrowserRouter>
+  ,
   document.getElementById('root')
 );
 

@@ -1,10 +1,12 @@
 import express from 'express';
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
+import {Helmet} from 'react-helmet';
+import {createProxyMiddleware} from 'http-proxy-middleware';
+
 
 import App from './App';
-import Head from './head';
 
 let assets: any;
 const escapeHtml = (unsafe: string) => {
@@ -45,19 +47,20 @@ const metaTags = (map: Map<string, string>) => {
   return result;
 }
 export const renderApp = (req: express.Request, res: express.Response) => {
-
   const markup = renderToString(
-    <StaticRouter location={req.url}>
-      <App />
-    </StaticRouter>
+      <StaticRouter location={req.url}>
+        <App />
+      </StaticRouter>
   );
+  const helmet = Helmet.renderStatic();
   const html =
     // prettier-ignore
     `<!doctype html>
     <html lang="">
     <head>
-        {{title}}
-        {{metas}}
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
+        ${helmet.link.toString()}
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta charSet='utf-8' />
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -67,8 +70,8 @@ export const renderApp = (req: express.Request, res: express.Response) => {
         <div id="root">${markup}</div>
         ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </body>
-  </html>`;  
-  return html.replace('{{title}}', titleTag(Head.title)).replace('{{metas}}', metaTags(Head.metas));
+  </html>`;
+  return html;
 };
 
 const server = express()
@@ -78,5 +81,8 @@ const server = express()
     const html = renderApp(req, res);
     res.send(html);
   });
+  if (process.env.RAZZLE_API) {
+    server.use(createProxyMiddleware('/', {target : process.env.RAZZLE_API}));
+  }
 
 export default server;

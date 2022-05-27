@@ -1,21 +1,21 @@
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
-import Head from '../head';
-import './Index.css';
+import React, { Fragment, useMemo, useState } from 'react'
+import { Helmet } from 'react-helmet';
+import { NavLink } from 'react-router-dom';
+import './Index.module.css';
 
 function Index() {
-    const [count, setCount] = useState(0);
-    useMemo(() =>
-    {
-        Head.title = 'Sample title';
-        Head.metas['description'] = 'tao la dit me may';
-        setCount(count + 1);
-    },[]);
     return (
-        <div className="Home">
-            <div className="Home-header">
-                <h2>{count}</h2>
+        <Fragment>
+            <Helmet>
+                <title>Index</title>
+                <meta name='description' content='this is index page'></meta>
+            </Helmet>
+            <div>
+                <h1>Index</h1>
+                <NavLink to={'/public/about'}>About</NavLink>
             </div>
-        </div>
+        </Fragment>
+
     )
 }
 

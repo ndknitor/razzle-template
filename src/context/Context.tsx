@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react"
+import React, { Dispatch,SetStateAction, useState } from "react"
 export class Store {
     authenticated: boolean = false;
     setAuthenticated: Dispatch<SetStateAction<boolean>> = () => { };

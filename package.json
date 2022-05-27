@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "http-proxy-middleware": "^2.0.6",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-helmet": "^6.1.0",
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "@types/node": "^13.13.2",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.5",
+    "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.3",
     "@types/webpack-env": "^1.15.2",
     "babel-preset-razzle": "4.2.15",
