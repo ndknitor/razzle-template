@@ -9,14 +9,6 @@ import {createProxyMiddleware} from 'http-proxy-middleware';
 import App from './App';
 
 let assets: any;
-const escapeHtml = (unsafe: string) => {
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
 
 const syncLoadAssets = () => {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
@@ -36,16 +28,6 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
       `<script src="${asset}"${extra}></script>`
     ).join('') : '' : '';
 };
-const titleTag = (title: string) => {
-  return `<title>${escapeHtml(title)}</title>`;
-}
-const metaTags = (map: Map<string, string>) => {
-  let result = '';
-  for (const [key, value] of Object.entries(map)) {
-    result += `<meta name='${escapeHtml(key)}' content='${escapeHtml(value)}'/>`;
-  }
-  return result;
-}
 export const renderApp = (req: express.Request, res: express.Response) => {
   const markup = renderToString(
       <StaticRouter location={req.url}>
