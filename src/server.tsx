@@ -4,8 +4,6 @@ import { renderToString } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import {Helmet} from 'react-helmet';
 import {createProxyMiddleware} from 'http-proxy-middleware';
-
-
 import App from './App';
 
 let assets: any;
