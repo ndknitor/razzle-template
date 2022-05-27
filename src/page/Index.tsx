@@ -1,4 +1,5 @@
-import React, { Fragment, useMemo, useState } from 'react'
+import axios from 'axios';
+import React, { Fragment, useEffect, useRef } from 'react'
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
 import './Index.module.css';
@@ -15,7 +16,6 @@ function Index() {
                 <NavLink to={'/public/about'}>About</NavLink>
             </div>
         </Fragment>
-
     )
 }
 
