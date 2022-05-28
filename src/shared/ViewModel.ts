@@ -7,7 +7,7 @@ export default class ViewModel {
             return ''
         }
         const messageObj = this.message.find(o => o.property == key);
-        if (messageObj) {
+        if (messageObj && messageObj.constraints) {
             const messageKeys = Object.values(Object.keys(messageObj.constraints));
             if (messageKeys.length > 0) {
                 return messageObj.constraints[messageKeys[0]];
