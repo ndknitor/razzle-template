@@ -1,7 +1,7 @@
 import React, { Fragment, PropsWithChildren, useContext } from 'react'
 import Context from '../context/Context';
 interface Props extends PropsWithChildren<{}> {
-    roles: string[] | null;
+    roles?: string[];
 }
 export default function AuthorizeView(props: Props) {
     const { authenticated, roles } = useContext(Context);
