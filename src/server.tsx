@@ -26,7 +26,7 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
       `<script src="${asset}"${extra}></script>`
     ).join('') : '' : '';
 };
-export const renderApp = (req: express.Request, res: express.Response) => {
+export const renderApp = (req: express.Request) => {
   const markup = renderToString(
       <StaticRouter location={req.url}>
         <App />
@@ -58,7 +58,7 @@ const server = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get('/*', (req: express.Request, res: express.Response) => {
-    const html = renderApp(req, res);
+    const html = renderApp(req);
     res.send(html);
   });
   if (process.env.RAZZLE_API) {
