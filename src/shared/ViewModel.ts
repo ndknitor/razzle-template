@@ -2,13 +2,13 @@ import { validate, ValidationError } from "class-validator";
 
 export default class ViewModel {
     protected message: ValidationError[];
-    private buildFormData = (formData :FormData, data: any, indexR :number,parentKey:string | undefined = undefined) =>
+    private buildFormData = (formData :FormData, data: any, indexR :boolean,parentKey:string | undefined = undefined) =>
     {
         if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
             let keys: string[];
-            if (indexR == 0) {
+            if (indexR) {
                 keys = Object.keys(data).slice(5);
-                indexR++;
+                indexR = false;
             }
             else
             {
@@ -43,7 +43,7 @@ export default class ViewModel {
     }
     toFormData = () => {
         const formData = new FormData();
-        this.buildFormData(formData, this,0);
+        this.buildFormData(formData, this,true);
         return formData;
     }
 }
