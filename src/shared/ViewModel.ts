@@ -1,7 +1,7 @@
 import { validate, ValidationError } from "class-validator";
 
 export default class ViewModel {
-    protected message: ValidationError[];
+    protected messages: ValidationError[];
     private buildFormData = (formData :FormData, data: any, indexR :boolean,parentKey:string | undefined = undefined) =>
     {
         if (data && typeof data === 'object' && !(data instanceof Date) && !(data instanceof File)) {
@@ -20,16 +20,15 @@ export default class ViewModel {
             });
           } else {
             const value = data == null ? '' : data;
-        
             formData.append(parentKey, value);
           }
     }
-    getMessage = (key: string) => {
-        if (!this.message) {
+    getMessage = (func: Function) => {
+        if (!this.messages) {
             return ''
         }
-        const messageObj = this.message.find(o => o.property == key);
-        if (messageObj && messageObj.constraints) {
+        const messageObj = this.messages.find(o => o.property == getPropertyName(func));
+        if (messageObj) {
             const messageKeys = Object.values(Object.keys(messageObj.constraints));
             if (messageKeys.length > 0) {
                 return messageObj.constraints[messageKeys[0]];
@@ -38,12 +37,16 @@ export default class ViewModel {
         return '';
     }
     check = async () => {
-        this.message = await validate(this);
-        return this.message.length == 0;
+        this.messages = await validate(this);
+        return this.messages.length == 0;
     }
     toFormData = () => {
         const formData = new FormData();
         this.buildFormData(formData, this,true);
         return formData;
     }
+}
+
+function getPropertyName (propertyFunction: Function) {
+    return /\.([^\.;]+);?\s*\}$/.exec(propertyFunction.toString())[1];
 }
