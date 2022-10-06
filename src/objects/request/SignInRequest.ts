@@ -1,5 +1,5 @@
-import { IsDefined, IsEmail, IsOptional, MaxLength, MinLength,  } from "class-validator";
-import ViewModel from "../shared/ViewModel";
+import { IsDefined, IsEmail,  MaxLength, MinLength,  } from "class-validator";
+import ViewModel from "../../shared/boiler/ViewModel";
 
 export default class SignInRequest extends ViewModel
 {

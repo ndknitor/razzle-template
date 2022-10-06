@@ -1,11 +1,11 @@
 import React from 'react';
-import Provider from './context/Provider';
-import ApplicationRouter from './router/ApplicationRouter';
+import Provider from './shared/context/Provider';
+import AppRouter from './router/AppRouter';
 import './style.css';
 
 const App = () => (
   <Provider>
-    <ApplicationRouter/>
+    <AppRouter/>
   </Provider>
 );
 export default App;
