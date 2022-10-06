@@ -1,6 +1,6 @@
 import React, { Fragment, useContext } from 'react'
 import { Navigate, PathRouteProps } from 'react-router-dom'
-import { forbiddenRedirect, unauthenticatedRedirect } from '../../util/redirect';
+import { forbiddenRedirect, unauthenticatedRedirect } from '../../utils/redirect';
 import Context from '../context/Context'
 interface Props extends PathRouteProps {
     roles: string[];
