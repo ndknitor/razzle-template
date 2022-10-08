@@ -10,7 +10,7 @@ hydrate(
   <BrowserRouter>
     <BroswerDataContext>
       <App />
-    </BroswerDataContext>
+    </BroswerDataContext >
   </BrowserRouter>
   ,
   document.getElementById('root')
