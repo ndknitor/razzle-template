@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { Fragment } from 'react'
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
@@ -8,13 +7,11 @@ function Index() {
     return (
         <Fragment>
             <Helmet>
-                <title>Index</title>
+                <title>This is title</title>
                 <meta name='description' content='this is index page'></meta>
             </Helmet>
-            <div>
-                <h1 className={styles["red"]}>Index</h1>
-                <NavLink to={'/about'}>About</NavLink>
-            </div>
+            <h1 className={styles["red"]}>Index</h1>
+            <NavLink to={'/about'}>About</NavLink>
         </Fragment>
     )
 }

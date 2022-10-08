@@ -4,10 +4,12 @@ import { renderToString } from 'react-dom/server';
 import { Helmet } from 'react-helmet';
 import React from 'react';
 import App from '../App';
+import { createServerContext } from 'use-sse';
 let assets: any;
 const syncLoadAssets = () => {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
 };
+const { ServerDataContext, resolveData } = createServerContext();
 syncLoadAssets();
 
 const cssLinksFromAssets = (assets, entrypoint) => {
@@ -24,30 +26,39 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
     ).join('') : '' : '';
 };
 
-export const renderApp = (req: express.Request) => {
+export const renderApp = async (req: express.Request) => {
+  renderToString(
+    <StaticRouter location={req.url}>
+      <ServerDataContext>
+        <App />
+      </ServerDataContext>
+    </StaticRouter>
+  );
+  const data = await resolveData();
   const markup = renderToString(
     <StaticRouter location={req.url}>
-      <App />
+      <ServerDataContext>
+        <App />
+      </ServerDataContext>
     </StaticRouter>
   );
   const helmet = Helmet.renderStatic();
   const html =
-    // prettier-ignore
     `<!doctype html>
       <html lang="">
       <head>
           ${helmet.title.toString()}
           ${helmet.meta.toString()}
           ${helmet.link.toString()}
-          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
           <meta charSet='utf-8' />
           <meta name="viewport" content="width=device-width, initial-scale=1">
           ${cssLinksFromAssets(assets, 'client')}
       </head>
       <body>
           <div id="root">${markup}</div>
-          ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
       </body>
+        ${data.toHtml()}
+        ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
     </html>`;
   return html;
 };
