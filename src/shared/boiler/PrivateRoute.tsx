@@ -3,7 +3,7 @@ import { Navigate, PathRouteProps } from 'react-router-dom'
 import { forbiddenRedirect, unauthenticatedRedirect } from '../../utils/redirect';
 import Context from '../context/Context'
 interface Props extends PathRouteProps {
-    roles: string[];
+    roles?: string[];
     unauthenticatedRedirect?: string;
     forbiddenRedirect?: string;
 }
