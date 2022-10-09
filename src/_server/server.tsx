@@ -1,5 +1,5 @@
 import express from 'express';
-import {createProxyMiddleware} from 'http-proxy-middleware';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import { renderApp } from './render';
 
 const server = express()
@@ -9,8 +9,8 @@ const server = express()
     const html = await renderApp(req);
     res.send(html);
   });
-  if (process.env.RAZZLE_API) {
-    server.use(createProxyMiddleware('/', {target : process.env.RAZZLE_API}));
-  }
+if (process.env.RAZZLE_API) {
+  server.use(createProxyMiddleware('/', { target: process.env.RAZZLE_API }));
+}
 
 export default server;

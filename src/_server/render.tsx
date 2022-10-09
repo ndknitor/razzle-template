@@ -57,7 +57,7 @@ export const renderApp = async (req: express.Request) => {
       </head>
       <body>
           <div id="root">${markup}</div>
-          <div id="data" style="display:none">${encodeURI(JSON.stringify(data.toJSON()))}</div>
+          <div id="data" hidden>${encodeURI(JSON.stringify(data.toJSON()))}</div>
       </body>
         <script>window._initialDataContext=JSON.parse(decodeURI(document.getElementById('data').innerText))</script>
         ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}

@@ -5,10 +5,10 @@ import { useSSE } from 'use-sse';
 import styles from './Index.module.css';
 function Index() {
     const [data, error] = useSSE<string>(async () => {
-        return "<script>alert('dit me may')</script>";
+        const r = "<script>alert('dit me may')</script>";
+        return r;
     }, []);
     const [res, setRes] = useState(data);
-
     return (
         <>
             <Helmet>
@@ -17,6 +17,8 @@ function Index() {
             </Helmet>
             <h1 className={styles["red"]}>Index</h1>
             <NavLink to={'/about'}>About</NavLink>
+            <br/>
+            <NavLink to={"/render/1"}>Render</NavLink>
             <h1>{res}</h1>
         </>
     )
