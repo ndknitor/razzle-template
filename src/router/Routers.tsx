@@ -9,7 +9,7 @@ function Routers() {
     <Routes>
       <Route path='/' element={<Index />} />
       <Route path='/about' element={<About />} />
-      <Route path='/render/:id' element={<Render/>}/>
+      <Route path='/render/:id' element={<Render />} />
     </Routes>
   )
 }

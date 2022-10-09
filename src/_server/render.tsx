@@ -5,6 +5,30 @@ import { Helmet } from 'react-helmet';
 import React from 'react';
 import App from '../App';
 import { createServerContext } from 'use-sse';
+import { RenderConfig } from './renderConfig';
+
+const renderConfig : RenderConfig =
+{
+  ssr: [],
+  ssg: {
+    storeMode: 'RAM',
+    path: []
+  },
+  isr: {
+    nisr: {
+      path: [],
+      expries: 0
+    },
+    disr: {
+      listen: 0,
+      count: 0,
+      expries: 0,
+      storeMode: 'RAM',
+      capacity: 0,
+      trackingCapacity: 0
+    }
+  }
+};
 let assets: any;
 const syncLoadAssets = () => {
   assets = require(process.env.RAZZLE_ASSETS_MANIFEST!);
@@ -27,7 +51,7 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 
 export const renderApp = async (req: express.Request) => {
   const { ServerDataContext, resolveData } = createServerContext();
-  const d = renderToString(
+  renderToString(
     <StaticRouter location={req.url}>
       <ServerDataContext>
         <App />
@@ -46,7 +70,7 @@ export const renderApp = async (req: express.Request) => {
   const helmet = Helmet.renderStatic();
   const html =
     `<!doctype html>
-      <html lang="">
+      <html>
       <head>
           ${helmet.title.toString()}
           ${helmet.meta.toString()}

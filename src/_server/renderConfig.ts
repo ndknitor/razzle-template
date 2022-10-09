@@ -1,26 +1,5 @@
-const config : RenderConfig =
-{
-    csr : [],
-    ssg : {
-        path : [],
-        storeMode : "ROM"
-    },
-    isr : {
-        nisr : {
-            path : [],
-            expries : 10
-        },
-        disr : {
-            storeMode : "RAM",
-            capacity : 10,
-            count : 10,
-            expries : 10,
-            listen : 10
-        }
-    }
-} 
 export type RenderConfig = {
-    csr : string[];
+    ssr : string[];
     ssg : {
         storeMode : StoreMode;
         path : string[];
@@ -31,11 +10,12 @@ export type RenderConfig = {
             expries : number;
         }
         disr : {
+            listen : number;
+            count : number;
+            expries : number;
             storeMode : StoreMode;
             capacity : number;
-            expries : number;
-            count : number;
-            listen : number;
+            trackingCapacity : number;
         }
     }
 }
