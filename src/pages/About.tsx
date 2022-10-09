@@ -9,10 +9,10 @@ function About() {
         <title>About</title>
         <meta name='description' content='this is about page' />
       </Helmet>
-      <div>
+      <>
         <h1>About</h1>
         <NavLink to={'/'}>Index</NavLink>
-      </div>
+      </>
     </>
   )
 }
