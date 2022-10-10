@@ -1,11 +1,11 @@
 import express from 'express';
 import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
-import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { HelmetProvider } from 'react-helmet-async';
 import React from 'react';
 import App from '../App';
 import { createServerContext } from 'use-sse';
-import { RenderConfig } from './renderConfig';
+import { RenderConfig } from './RenderConfig';
 
 const renderConfig: RenderConfig =
 {
