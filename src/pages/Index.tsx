@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
 import { useSSE } from 'use-sse';
+import useRenderTarget from '../shared/hook/useRenderTarget';
 import styles from './Index.module.css';
 function Index() {
+    const { isClient } = useRenderTarget();
     const [data, error] = useSSE<string>(async () => {
         const r = "<script>alert('dit me may')</script>";
+        if (isClient) {
+            setRes(r);
+        }
         return r;
     }, []);
     const [res, setRes] = useState(data);
