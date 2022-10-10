@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet-async'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { useSSE } from 'use-sse';
 import useRenderTarget from '../shared/hook/useRenderTarget';

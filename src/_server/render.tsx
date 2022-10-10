@@ -1,13 +1,13 @@
 import express from 'express';
 import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import React from 'react';
 import App from '../App';
 import { createServerContext } from 'use-sse';
 import { RenderConfig } from './renderConfig';
 
-const renderConfig : RenderConfig =
+const renderConfig: RenderConfig =
 {
   ssr: [],
   ssg: {
@@ -51,23 +51,28 @@ const jsScriptTagsFromAssets = (assets, entrypoint, extra = '') => {
 
 export const renderApp = async (req: express.Request) => {
   const { ServerDataContext, resolveData } = createServerContext();
+  const helmetContext: any = {};
   renderToString(
-    <StaticRouter location={req.url}>
-      <ServerDataContext>
-        <App />
-      </ServerDataContext>
-    </StaticRouter>
+    <HelmetProvider context={helmetContext}>
+      <StaticRouter location={req.url}>
+        <ServerDataContext>
+          <App />
+        </ServerDataContext>
+      </StaticRouter>
+    </HelmetProvider>
   );
-  
+  const { helmet } = helmetContext;
   const data = await resolveData();
   const markup = renderToString(
-    <StaticRouter location={req.url}>
-      <ServerDataContext>
-        <App />
-      </ServerDataContext>
-    </StaticRouter>
+    <HelmetProvider context={helmetContext}>
+      <StaticRouter location={req.url}>
+        <ServerDataContext>
+          <App />
+        </ServerDataContext>
+      </StaticRouter>
+    </HelmetProvider>
   );
-  const helmet = Helmet.renderStatic();
+
   const html =
     `<!doctype html>
       <html>

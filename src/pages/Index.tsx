@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
 import { useSSE } from 'use-sse';
 import styles from './Index.module.css';
