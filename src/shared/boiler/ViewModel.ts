@@ -1,4 +1,5 @@
 import { validate, ValidationError } from "class-validator";
+import { Dispatch, SetStateAction } from "react";
 
 export default class ViewModel {
     protected messages: ValidationError[];
@@ -36,8 +37,11 @@ export default class ViewModel {
         }
         return '';
     }
-    check = async () => {
+    check = async (action?: Dispatch<SetStateAction<number>>) => {
         this.messages = await validate(this);
+        if (action) {
+            action(Math.random());    
+        }
         return this.messages.length == 0;
     }
     toFormData = () => {
