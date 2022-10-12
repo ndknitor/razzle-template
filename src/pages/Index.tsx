@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
 import { useSSE } from 'use-sse';
 import SignInRequest from '../objects/request/SignInRequest';
+import appxios from '../shared/component/AxiosInterceptor';
 import useRenderTarget from '../shared/hook/useRenderTarget';
 import styles from './Index.module.css';
 function Index() {
@@ -32,6 +33,7 @@ function Index() {
                     <p>{request.getMessage(() => request.password)}</p>
                     <button onClick={async () => {
                         await request.check(setKey);
+                        appxios.get('/');
                     }}>dit</button>
                 </div>
             </>
