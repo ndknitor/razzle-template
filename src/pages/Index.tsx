@@ -33,7 +33,6 @@ function Index() {
                     <p>{request.getMessage(() => request.password)}</p>
                     <button onClick={async () => {
                         await request.check(setKey);
-                        appxios.get('/');
                     }}>Submit</button>
                 </div>
             </>

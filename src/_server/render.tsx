@@ -10,7 +10,7 @@ import App from '../App';
 import { RenderConfig } from './RenderConfig';
 
 
-const renderConfig: RenderConfig =
+export const renderConfig: RenderConfig =
 {
   ssr: [],
   ssg: ["/about"],
@@ -82,23 +82,23 @@ const serverRender = async (url: string) => {
   return [head, initData, markup];
 }
 
-export const render = async (request: Request) => {
+export const render = async (url: string) => {
   //ssg
-  let result = await cache.get<string>(request.url);  
+  let result = await cache.get<string>(url);
   if (result) {
     return result;
   }
   //ssr
   for (let i = 0; i < renderConfig.ssr.length; i++) {
     const element = renderConfig.ssr[i];
-    if (matchPath(element, request.url)) {
-      return await renderApp(request.url, false);
+    if (matchPath(element, url)) {
+      return await renderApp(url, false);
     }
   }
   //nisr
   for (let i = 0; i < renderConfig.isr.nisr.path.length; i++) {
     const element = renderConfig.isr.nisr.path[i];
-    if (matchPath(element, request.url)) {
+    if (matchPath(element, url)) {
       let count = 0;
       cache.keys().map(key => {
         if (matchPath(element, key)) {
@@ -106,26 +106,26 @@ export const render = async (request: Request) => {
         }
       });
       if (count < renderConfig.isr.nisr.capacity) {
-        result = await renderApp(request.url, false);
-        cache.set(request.url, result, renderConfig.isr.nisr.expries);
+        result = await renderApp(url, false);
+        cache.set(url, result, renderConfig.isr.nisr.expries);
         return result;
       }
       else {
-        return await renderApp(request.url, false);
+        return await renderApp(url, false);
       }
     }
   }
   //disr
   for (let i = 0; i < renderConfig.isr.disr.path.length; i++) {
     const element = renderConfig.isr.disr.path[i];
-    if (matchPath(element, request.url)) {
+    if (matchPath(element, url)) {
       
     }
   }
   //csr
-  return renderApp(request.url, true);
+  return renderApp(url, true);
 };
-const cache = new NodeCache();
+export const cache = new NodeCache();
 renderConfig.ssg.map(item => {
   if (item.indexOf(":") < 0) {
     cache.set(item, renderApp(item, false), 0);
