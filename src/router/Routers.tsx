@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom';
-import About from '../pages/About';
-import Index from '../pages/Index';
-import Render from '../pages/Render';
+
+const About = lazy(() => import('../pages/About'));
+const Index = lazy(() => import('../pages/Index'));
+const Render = lazy(() => import('../pages/Render'));
 
 function Routers() {
   return (
-    <Routes>
-      <Route path='/' element={<Index />} />
-      <Route path='/about' element={<About />} />
-      <Route path='/render/:id' element={<Render />} />
-    </Routes>
+    <Suspense fallback={<div>Loading</div>}>
+      <Routes>
+        <Route path='/' element={<Index />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/render/:id' element={<Render />} />
+      </Routes>
+    </Suspense>
   )
 }
 

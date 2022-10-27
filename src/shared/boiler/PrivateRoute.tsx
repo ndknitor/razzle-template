@@ -8,6 +8,7 @@ interface Props extends PathRouteProps {
     forbiddenRedirect?: string;
 }
 function PrivateRoute(props: Props) {
+    const { initLoading } = useContext(Context);
     const { authenticated, roles } = useContext(Context);
     const isInRole = () => {
         if (!props.roles) {
@@ -22,14 +23,17 @@ function PrivateRoute(props: Props) {
         return false;
     }
     return (
+        !initLoading ?
         authenticated ?
             isInRole() ?
                 <Fragment>
                     {props.children}
                 </Fragment> :
-                <Navigate to={props.forbiddenRedirect || forbiddenRedirect}/>
+                <Navigate to={props.forbiddenRedirect || forbiddenRedirect} />
             :
-            <Navigate to={props.unauthenticatedRedirect || unauthenticatedRedirect}/>
+            <Navigate to={props.unauthenticatedRedirect || unauthenticatedRedirect} />
+            :
+            null
     )
 }
 

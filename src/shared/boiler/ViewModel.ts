@@ -51,6 +51,7 @@ export default class ViewModel {
     }
 }
 
-function getPropertyName (propertyFunction: Function) {
-    return /\.([^\.;]+);?\s*\}$/.exec(propertyFunction.toString())[1];
+function getPropertyName(propertyFunction: Function) {
+    const s = propertyFunction.toString().split(".");
+    return s[s.length -1];
 }

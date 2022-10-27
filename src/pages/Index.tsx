@@ -9,7 +9,7 @@ import styles from './Index.module.css';
 function Index() {
     const { isClient } = useRenderTarget();
     const [data, error] = useSSE<string>(async () => {
-        const r = "<script>alert('dit me may')</script>";
+        const r = "<script>alert('dit me may');</script>";
         if (isClient) {
             setRes(r);
         }
@@ -22,19 +22,19 @@ function Index() {
     return (
         <>
             <Helmet>
-                <title>This is title</title>
+                <title>this is title</title>
                 <meta name='description' content='this is index page'></meta>
             </Helmet>
             <>
                 <div key={key}>
                     <input type="text" defaultValue={request.email} onChange={e => request.email = e.target.value} />
                     <p>{request.getMessage(() => request.email)}</p>
-                    <input type="text" onChange={e => request.password = e.target.value} />
+                    <input type="text" defaultValue={request.password} onChange={e => request.password = e.target.value} />
                     <p>{request.getMessage(() => request.password)}</p>
                     <button onClick={async () => {
                         await request.check(setKey);
                         appxios.get('/');
-                    }}>dit</button>
+                    }}>Submit</button>
                 </div>
             </>
             <>
