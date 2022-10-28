@@ -3,7 +3,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import { render } from './render';
 import revalidate from './revalidate';
 
-const server = express()
+const app = express()
   .disable('x-powered-by')
   .use(express.static(process.env.RAZZLE_PUBLIC_DIR!))
   .get(process.env.RAZZLE_REVALIDATE_PATH, async (request: express.Request, response: express.Response) => {
@@ -17,7 +17,7 @@ const server = express()
   });
 
 if (process.env.RAZZLE_API) {
-  server.use(createProxyMiddleware(process.env.RAZZLE_API_CONTEXT_FILTER, { target: process.env.RAZZLE_API_HOST }));
+  app.use(createProxyMiddleware(process.env.RAZZLE_API_CONTEXT_FILTER, { target: process.env.RAZZLE_API_HOST }));
 }
 
-export default server;
+export default app;

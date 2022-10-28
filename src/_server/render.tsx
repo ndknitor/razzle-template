@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import { StaticRouter } from 'react-router-dom/server';
 import { renderToString } from 'react-dom/server';
 import { HelmetProvider } from 'react-helmet-async';
@@ -12,11 +11,11 @@ import { RenderConfig } from './RenderConfig';
 
 export const renderConfig: RenderConfig =
 {
-  ssr: [],
-  ssg: ["/about"],
+  ssr: ["/*"],
+  ssg: [],
   isr: {
     nisr: {
-      path: ["/"],
+      path: [],
       expries: 1 * 60 * 1000,
       capacity: 100
     },
@@ -46,9 +45,8 @@ const renderApp = async (url: string, csr: boolean) => {
   </head>
   <body>
     <div id="root">${markup}</div>
-    <div id="data" hidden>${encodeURI(initData)}</div>
   </body>
-  <script>window._initialDataContext=JSON.parse(decodeURI(document.getElementById('data').innerText))</script>
+  <script>window._initialDataContext=JSON.parse(decodeURI("${encodeURI(initData)}"))</script>
   ${jsScriptTagsFromAssets(assets, 'client', ' defer crossorigin')}
 </html>`;
   return html;
@@ -57,25 +55,17 @@ const renderApp = async (url: string, csr: boolean) => {
 const serverRender = async (url: string) => {
   const { ServerDataContext, resolveData } = createServerContext();
   const helmetContext: any = {};
-  renderToString(
-    <HelmetProvider context={helmetContext}>
-      <StaticRouter location={url}>
-        <ServerDataContext>
-          <App />
-        </ServerDataContext>
-      </StaticRouter>
-    </HelmetProvider>
-  );
+  const app =
+      <HelmetProvider context={helmetContext}>
+        <StaticRouter location={url}>
+          <ServerDataContext>
+            <App />
+          </ServerDataContext>
+        </StaticRouter>
+      </HelmetProvider>;
+  renderToString(app);
   const data = await resolveData();
-  const markup = renderToString(
-    <HelmetProvider context={helmetContext}>
-      <StaticRouter location={url}>
-        <ServerDataContext>
-          <App />
-        </ServerDataContext>
-      </StaticRouter>
-    </HelmetProvider>
-  );
+  const markup = renderToString(app);
   const { helmet } = helmetContext;
   const head = `${helmet.title.toString()}${helmet.meta.toString()}${helmet.link.toString()}`;
   const initData = JSON.stringify(data.toJSON());
@@ -119,7 +109,7 @@ export const render = async (url: string) => {
   for (let i = 0; i < renderConfig.isr.disr.path.length; i++) {
     const element = renderConfig.isr.disr.path[i];
     if (matchPath(element, url)) {
-      
+
     }
   }
   //csr
