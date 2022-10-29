@@ -16,7 +16,7 @@ const app = express()
     response.send(html);
   });
 
-if (process.env.RAZZLE_API) {
+if (process.env.RAZZLE_API_HOST) {
   app.use(createProxyMiddleware(process.env.RAZZLE_API_CONTEXT_FILTER, { target: process.env.RAZZLE_API_HOST }));
 }
 

@@ -29,7 +29,7 @@ export const renderConfig: RenderConfig =
     }
   }
 };
-const renderApp = async (url: string, csr: boolean) => {
+export const renderApp = async (url: string, csr: boolean) => {
   let [head, initData, markup] = ["", "{}", ""];
   if (!csr) {
     [head, initData, markup] = await serverRender(url);

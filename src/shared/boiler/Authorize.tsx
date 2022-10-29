@@ -1,13 +1,13 @@
-import React, { Fragment, useContext } from 'react'
-import { Navigate, PathRouteProps } from 'react-router-dom'
+import React, { PropsWithChildren, useContext } from 'react'
+import { Navigate, PathRouteProps, Route } from 'react-router-dom';
 import { forbiddenRedirect, unauthenticatedRedirect } from '../../utils/Redirect';
-import Context from '../context/Context'
-interface Props extends PathRouteProps {
+import Context from '../context/Context';
+interface Props extends PropsWithChildren {
     roles?: string[];
     unauthenticatedRedirect?: string;
     forbiddenRedirect?: string;
 }
-function PrivateRoute(props: Props) {
+function Authorize(props: Props) {
     const { initLoading } = useContext(Context);
     const { authenticated, roles } = useContext(Context);
     const isInRole = () => {
@@ -24,17 +24,16 @@ function PrivateRoute(props: Props) {
     }
     return (
         !initLoading ?
-        authenticated ?
-            isInRole() ?
-                <Fragment>
-                    {props.children}
-                </Fragment> :
-                <Navigate to={props.forbiddenRedirect || forbiddenRedirect} />
-            :
-            <Navigate to={props.unauthenticatedRedirect || unauthenticatedRedirect} />
+            authenticated ?
+                isInRole() ?
+                    <>{props.children}</>
+                    :
+                    <Navigate to={props.forbiddenRedirect || forbiddenRedirect} replace />
+                :
+                <Navigate to={props.unauthenticatedRedirect || unauthenticatedRedirect} replace />
             :
             null
     )
 }
 
-export default PrivateRoute
+export default Authorize

@@ -1,27 +1,34 @@
-import { createContext ,Dispatch, SetStateAction, useState } from "react"
+import { createContext, Dispatch, SetStateAction, useState } from "react"
 export class Store {
-    initLoading : boolean;
-    setInitLoading : Dispatch<SetStateAction<boolean>> = () => { };
+    initLoading: boolean;
+    setInitLoading: Dispatch<SetStateAction<boolean>> = () => { };
 
     authenticated: boolean = false;
-    setAuthenticated: Dispatch<SetStateAction<boolean>> = () => { };
-
     roles: string[] = [];
-    setRoles: Dispatch<SetStateAction<string[]>> = () => { };
+    setAuthorize : (scheme: string[] | boolean) => void;
 }
 export const useProvider: () => Store = () => {
-    const [initLoading, setInitLoading] = useState(true);
-    const [authenticated, setAuthenticated] = useState(false);
+    const [initLoading, setInitLoading] = useState<boolean>(true);
+    const [authenticated, setAuthenticated] = useState<boolean>(false);
     const [roles, setRoles] = useState<string[]>([]);
+    const setAuthorize = (scheme: string[] | boolean) => {
+        if (!(typeof scheme == "boolean")) {
+            setAuthenticated(true);
+            setRoles(scheme);
+        }
+        else
+        {
+            setAuthenticated(scheme);
+            setRoles([]);
+        }
+    }
     return {
         initLoading,
         setInitLoading,
 
         authenticated,
-        setAuthenticated,
-
         roles,
-        setRoles
+        setAuthorize
     };
 }
 const Context = createContext<Store>(new Store());
