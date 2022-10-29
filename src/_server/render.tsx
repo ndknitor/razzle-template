@@ -21,7 +21,7 @@ export const renderConfig: RenderConfig =
     },
     disr: {
       path: [],
-      listen: 1,
+      listen: 1 * 60 * 1000,
       count: 10,
       expries: 30 * 60 * 1000,
       capacity: 300,

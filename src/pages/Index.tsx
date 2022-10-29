@@ -3,14 +3,16 @@ import { Helmet } from 'react-helmet-async';
 import { NavLink } from 'react-router-dom';
 import { useSSE } from 'use-sse';
 import SignInRequest from '../objects/request/SignInRequest';
+import useAuth from '../shared/context/hook/useAuth';
 import useRenderTarget from '../shared/hook/useRenderTarget';
 import styles from './Index.module.css';
 function Index() {
     const { isClient } = useRenderTarget();
+    const {setAuthorize, authenticated, roles} = useAuth();
     const [data] = useSSE<string>(async () => {
         const r = '<script>alert("dit me may");</script>';
         if (isClient) {
-            setRes(r);
+            setRes(r);            
         }
         return r;
     }, []);
@@ -37,6 +39,12 @@ function Index() {
             </>
             <>
                 <h1 className={styles["red"]}>Index</h1>
+                <h3>Authenticated : {authenticated.toString()}</h3>
+                <h3>Roles : {roles.toString()}</h3>
+                <button onClick={e => setAuthorize(["User"])}>Authorize</button>
+                <br />
+                <button onClick={e => setAuthorize(false)}>Unauthorize</button>
+                <br />
                 <NavLink to={'/about'}>About</NavLink>
                 <br />
                 <NavLink to={"/render/1"}>Render</NavLink>
