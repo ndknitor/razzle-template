@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { NavLink, useLocation, useParams } from 'react-router-dom'
 import { useSSE } from 'use-sse';
+import Authorize from '../shared/boiler/Authorize';
 import useRenderTarget from '../shared/hook/useRenderTarget';
 
 function Render() {
@@ -16,7 +17,7 @@ function Render() {
     }, [id]);
     const [res, setRes] = useState(data);
     return (
-        <>
+        <Authorize roles={["User"]}>
             <Helmet>
                 <title>About</title>
                 <meta name='description' content='this is about page' />
@@ -27,7 +28,7 @@ function Render() {
                 <br/>
                 <NavLink to={location.pathname + 1}>test navigation</NavLink>
             </>
-        </>
+        </Authorize>
     )
 }
 

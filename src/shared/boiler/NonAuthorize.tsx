@@ -1,15 +1,18 @@
-import React, { PropsWithChildren, useContext } from 'react'
+import React, { PropsWithChildren, useContext, useEffect } from 'react'
 import { Navigate } from 'react-router-dom';
 import { forbiddenRedirect } from '../../utils/Redirect';
 import Context from '../context/Context'
 
 function NonAuthorize({ children }: PropsWithChildren) {
-    const { authenticated } = useContext(Context);
+    const { authenticated, initLoading } = useContext(Context);
     return (
-        authenticated ?
-        <Navigate to={forbiddenRedirect} replace/>
-        :
-        <>{children}</>
+        !initLoading ?
+            authenticated ?
+                <Navigate to={forbiddenRedirect} replace />
+                :
+                <>{children}</>
+            :
+            null
     )
 }
 

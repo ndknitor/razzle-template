@@ -37,6 +37,24 @@ export default class ViewModel {
         }
         return '';
     }
+    getMessages = (func: Function) => {
+        const result: string[] = [];
+        if (!this.messages) {
+            return result;
+        }
+        const messageObj = this.messages.find(o => o.property == getPropertyName(func));
+        if (messageObj) {
+            const messageKeys = Object.values(Object.keys(messageObj.constraints!));
+            if (messageKeys.length > 0) {
+                for (let i = 0; i < messageKeys.length; i++) {
+                    const element = messageKeys[i];
+                    result.push(messageObj.constraints![element]);
+                }
+                return result;
+            }
+        }
+        return result;
+    }
     check = async (action?: Dispatch<SetStateAction<number>>) => {
         this.messages = await validate(this);
         if (action) {

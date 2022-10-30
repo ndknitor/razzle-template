@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-decorators": "^7.19.3",
+    "@docusaurus/react-loadable": "^5.5.2",
     "axios": "^1.1.2",
     "class-validator": "^0.13.2",
     "express": "^4.18.2",
