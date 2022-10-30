@@ -4,7 +4,7 @@ import Loadable from 'react-loadable';
 import Loading from './shared/component/Loading';
 import useInit from './shared/context/hook/useInit';
 
-const Index = Loadable({ loader: () => import('./pages/Index'), loading: Loading });
+const Index = Loadable({ loader: () => import('./pages/Index') , loading : Loading});
 const About = Loadable({ loader: () => import('./pages/About'), loading: Loading });
 const Render = Loadable({ loader: () => import('./pages/Render'), loading: Loading });
 const Unauthoriized = Loadable({ loader: () => import('./pages/Unauthoriized'), loading: Loading });
