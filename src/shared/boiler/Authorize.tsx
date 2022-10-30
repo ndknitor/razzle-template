@@ -28,9 +28,11 @@ function Authorize(props: Props) {
         }
         if (!authenticated) {
             navigate(props.unauthenticatedRedirect || unauthenticatedRedirect);
+            return;
         }
         if (!isInRole()) {
             navigate(props.forbiddenRedirect || forbiddenRedirect);
+            return;
         }
     }, [initLoading])
     return (
